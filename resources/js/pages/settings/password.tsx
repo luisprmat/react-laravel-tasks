@@ -4,6 +4,7 @@ import SettingsLayout from '@/layouts/settings/layout';
 import { type BreadcrumbItem } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Head, useForm } from '@inertiajs/react';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { FormEventHandler, useRef } from 'react';
 
 import HeadingSmall from '@/components/heading-small';
@@ -28,6 +29,8 @@ export default function Password() {
         password_confirmation: '',
     });
 
+    const { t } = useLaravelReactI18n();
+
     const updatePassword: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -50,15 +53,18 @@ export default function Password() {
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Profile settings" />
+            <Head title={t('Profile settings')} />
 
             <SettingsLayout>
                 <div className="space-y-6">
-                    <HeadingSmall title="Update password" description="Ensure your account is using a long, random password to stay secure" />
+                    <HeadingSmall
+                        title={t('Update password')}
+                        description={t('Ensure your account is using a long, random password to stay secure')}
+                    />
 
                     <form onSubmit={updatePassword} className="space-y-6">
                         <div className="grid gap-2">
-                            <Label htmlFor="current_password">Current password</Label>
+                            <Label htmlFor="current_password">{t('Current password')}</Label>
 
                             <Input
                                 id="current_password"
@@ -68,14 +74,14 @@ export default function Password() {
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="current-password"
-                                placeholder="Current password"
+                                placeholder={t('Current password')}
                             />
 
                             <InputError message={errors.current_password} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password">New password</Label>
+                            <Label htmlFor="password">{t('New password')}</Label>
 
                             <Input
                                 id="password"
@@ -85,14 +91,14 @@ export default function Password() {
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
-                                placeholder="New password"
+                                placeholder={t('New password')}
                             />
 
                             <InputError message={errors.password} />
                         </div>
 
                         <div className="grid gap-2">
-                            <Label htmlFor="password_confirmation">Confirm password</Label>
+                            <Label htmlFor="password_confirmation">{t('Confirm password')}</Label>
 
                             <Input
                                 id="password_confirmation"
@@ -101,14 +107,14 @@ export default function Password() {
                                 type="password"
                                 className="mt-1 block w-full"
                                 autoComplete="new-password"
-                                placeholder="Confirm password"
+                                placeholder={t('Confirm password')}
                             />
 
                             <InputError message={errors.password_confirmation} />
                         </div>
 
                         <div className="flex items-center gap-4">
-                            <Button disabled={processing}>Save password</Button>
+                            <Button disabled={processing}>{t('Save password')}</Button>
 
                             <Transition
                                 show={recentlySuccessful}

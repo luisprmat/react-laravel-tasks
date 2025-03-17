@@ -1,6 +1,7 @@
 import { Icon } from '@/components/icon';
 import { SidebarGroup, SidebarGroupContent, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { type ComponentPropsWithoutRef } from 'react';
 
 export function NavFooter({
@@ -10,6 +11,7 @@ export function NavFooter({
 }: ComponentPropsWithoutRef<typeof SidebarGroup> & {
     items: NavItem[];
 }) {
+    const { t } = useLaravelReactI18n();
     return (
         <SidebarGroup {...props} className={`group-data-[collapsible=icon]:p-0 ${className || ''}`}>
             <SidebarGroupContent>
@@ -22,7 +24,7 @@ export function NavFooter({
                             >
                                 <a href={item.href} target="_blank" rel="noopener noreferrer">
                                     {item.icon && <Icon iconNode={item.icon} className="h-5 w-5" />}
-                                    <span>{item.title}</span>
+                                    <span>{t(item.title)}</span>
                                 </a>
                             </SidebarMenuButton>
                         </SidebarMenuItem>

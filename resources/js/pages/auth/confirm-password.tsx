@@ -1,5 +1,6 @@
 // Components
 import { Head, useForm } from '@inertiajs/react';
+import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { LoaderCircle } from 'lucide-react';
 import { FormEventHandler } from 'react';
 
@@ -14,6 +15,8 @@ export default function ConfirmPassword() {
         password: '',
     });
 
+    const { t } = useLaravelReactI18n();
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -24,20 +27,20 @@ export default function ConfirmPassword() {
 
     return (
         <AuthLayout
-            title="Confirm your password"
-            description="This is a secure area of the application. Please confirm your password before continuing."
+            title={t('Confirm your password')}
+            description={t('This is a secure area of the application. Please confirm your password before continuing.')}
         >
-            <Head title="Confirm password" />
+            <Head title={t('Confirm password')} />
 
             <form onSubmit={submit}>
                 <div className="space-y-6">
                     <div className="grid gap-2">
-                        <Label htmlFor="password">Password</Label>
+                        <Label htmlFor="password">{t('Password')}</Label>
                         <Input
                             id="password"
                             type="password"
                             name="password"
-                            placeholder="Password"
+                            placeholder={t('Password')}
                             autoComplete="current-password"
                             value={data.password}
                             autoFocus
@@ -50,7 +53,7 @@ export default function ConfirmPassword() {
                     <div className="flex items-center">
                         <Button className="w-full" disabled={processing}>
                             {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                            Confirm password
+                            {t('Confirm password')}
                         </Button>
                     </div>
                 </div>
