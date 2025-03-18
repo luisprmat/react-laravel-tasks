@@ -1,4 +1,5 @@
 {
+    ":Items List": "Lista de :items",
     "(and :count more error)": "(y :count error más)",
     "(and :count more errors)": "(y :count error más)|(y :count errores más)|(y :count errores más)",
     "A decryption key is required.": "Se requiere una clave de descifrado.",
@@ -256,6 +257,8 @@
     "System": "Sistema",
     "Tag": "Etiqueta",
     "Tags": "Etiquetas",
+    "tasks": "tareas",
+    "Tasks": "Tareas",
     "Temporary Redirect": "Redirección temporal",
     "The given data was invalid.": "Los datos proporcionados no son válidos.",
     "The response is not a streamed response.": "La respuesta no es una respuesta transmitida.",
