@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { Task, type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type Task } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 
@@ -8,6 +8,10 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
+    {
+        title: 'Dashboard',
+        href: '/dashboard',
+    },
     {
         title: 'Tasks',
         href: '/tasks',
@@ -47,6 +51,9 @@ export default function Index({ tasks }: { tasks: Task[] }) {
                                     {task.is_completed ? t('Completed') : t('In Progress')}
                                 </TableCell>
                                 <TableCell className="flex flex-row gap-x-2 text-right">
+                                    <Link className={buttonVariants({ variant: 'default' })} href={`/tasks/${task.id}/edit`}>
+                                        {t('Edit')}
+                                    </Link>
                                     <Button variant={'destructive'} className={'cursor-pointer'} onClick={() => deleteTask(task.id)}>
                                         {t('Delete')}
                                     </Button>
