@@ -1,9 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
 import { Task, type BreadcrumbItem } from '@/types';
-import { Head, router } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from 'sonner';
 
@@ -27,8 +27,11 @@ export default function Index({ tasks }: { tasks: Task[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t(':Items List', { items: t('tasks') })} />
-            <div>
-                <Table>
+            <div className={'mt-8'}>
+                <Link className={buttonVariants({ variant: 'outline' })} href="/tasks/create">
+                    {t('Create :name', { name: t('Task') })}
+                </Link>
+                <Table className={'mt-4'}>
                     <TableHeader>
                         <TableRow>
                             <TableHead>{t('Task')}</TableHead>
