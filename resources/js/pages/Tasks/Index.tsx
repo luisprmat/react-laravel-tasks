@@ -1,8 +1,9 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Task } from '@/types';
+import { type BreadcrumbItem, type PaginatedResponse, type Task } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 
+import { TablePagination } from '@/components/table-pagination';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { toast } from 'sonner';
@@ -18,7 +19,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Index({ tasks }: { tasks: Task[] }) {
+export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
     const { t } = useLaravelReactI18n();
 
     const deleteTask = (id: number) => {
@@ -31,7 +32,7 @@ export default function Index({ tasks }: { tasks: Task[] }) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={t(':Items List', { items: t('tasks') })} />
-            <div className={'mt-8'}>
+            <div className={'mt-8 p-4'}>
                 <Link className={buttonVariants({ variant: 'outline' })} href="/tasks/create">
                     {t('Create :name', { name: t('Task') })}
                 </Link>
@@ -44,7 +45,7 @@ export default function Index({ tasks }: { tasks: Task[] }) {
                         </TableRow>
                     </TableHeader>
                     <TableBody>
-                        {tasks.map((task) => (
+                        {tasks.data.map((task) => (
                             <TableRow key={task.id}>
                                 <TableCell>{task.name}</TableCell>
                                 <TableCell className={task.is_completed ? 'text-green-600' : 'text-red-700'}>
@@ -62,6 +63,7 @@ export default function Index({ tasks }: { tasks: Task[] }) {
                         ))}
                     </TableBody>
                 </Table>
+                <TablePagination resource={tasks} />
             </div>
         </AppLayout>
     );
