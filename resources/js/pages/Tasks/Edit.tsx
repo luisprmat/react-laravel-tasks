@@ -1,4 +1,4 @@
-import { Head, useForm } from '@inertiajs/react';
+import { Head, router, useForm } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { FormEventHandler, useRef } from 'react';
 
@@ -15,6 +15,7 @@ type EditTaskForm = {
     name: string;
     is_completed: boolean;
     due_date?: string;
+    media?: string | File;
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -27,27 +28,33 @@ export default function Edit({ task }: { task: Task }) {
     const { t } = useLaravelReactI18n();
     const taskName = useRef<HTMLInputElement>(null);
 
-    const { data, setData, errors, put, reset, processing } = useForm<Required<EditTaskForm>>({
+    const { data, setData, errors, reset, processing, progress } = useForm<Required<EditTaskForm>>({
         name: task.name,
         is_completed: task.is_completed,
         due_date: task.due_date,
+        media: '',
     });
 
     const editTask: FormEventHandler = (e) => {
         e.preventDefault();
 
-        put(route('tasks.update', task.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-                reset();
+        router.post(
+            route('tasks.update', task.id),
+            { ...data, _method: 'PUT' },
+            {
+                forceFormData: true,
+                preserveScroll: true,
+                onSuccess: () => {
+                    reset();
+                },
+                onError: (errors) => {
+                    if (errors.name) {
+                        reset('name');
+                        taskName.current?.focus();
+                    }
+                },
             },
-            onError: (errors) => {
-                if (errors.name) {
-                    reset('name');
-                    taskName.current?.focus();
-                }
-            },
-        });
+        );
     };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -88,6 +95,37 @@ export default function Edit({ task }: { task: Task }) {
                         />
 
                         <InputError message={errors.due_date} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="media">{t('Media')}</Label>
+
+                        <Input
+                            id="media"
+                            onChange={(e) => {
+                                const files = e.target.files;
+                                if (files && files.length > 0) {
+                                    setData('media', files[0]);
+                                }
+                            }}
+                            className="mt-1 block w-full"
+                            type="file"
+                        />
+
+                        {progress && (
+                            <progress value={progress.percentage} max="100">
+                                {progress.percentage}%
+                            </progress>
+                        )}
+
+                        <InputError message={errors.media} />
+
+                        {!task.mediaFile ? (
+                            ''
+                        ) : (
+                            <a href={task.mediaFile.original_url} target="_blank" className="mx-auto my-4">
+                                <img src={task.mediaFile.original_url} className={'h-32 w-32'} />
+                            </a>
+                        )}
                     </div>
 
                     <div className="flex items-center gap-4">

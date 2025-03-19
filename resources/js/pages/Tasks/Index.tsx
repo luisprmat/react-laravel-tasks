@@ -40,6 +40,7 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                 <Table className={'mt-4'}>
                     <TableHeader>
                         <TableRow>
+                            <TableHead>{t('File')}</TableHead>
                             <TableHead>{t('Task')}</TableHead>
                             <TableHead className="w-[100px]">{t('Status')}</TableHead>
                             <TableHead className="w-[100px]">{t('Due Date')}</TableHead>
@@ -49,6 +50,15 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                     <TableBody>
                         {tasks.data.map((task) => (
                             <TableRow key={task.id}>
+                                <TableCell>
+                                    {!task.mediaFile ? (
+                                        ''
+                                    ) : (
+                                        <a href={task.mediaFile.original_url} target="_blank">
+                                            <img src={task.mediaFile.original_url} className={'h-8 w-8'} />
+                                        </a>
+                                    )}
+                                </TableCell>
                                 <TableCell>{task.name}</TableCell>
                                 <TableCell className={task.is_completed ? 'text-green-600' : 'text-red-700'}>
                                     {task.is_completed ? t('Completed') : t('In Progress')}
