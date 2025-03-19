@@ -1,5 +1,6 @@
 import * as React from "react"
 import { useLaravelReactI18n } from "laravel-react-i18n"
+import { Link } from "@inertiajs/react"
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
@@ -40,20 +41,24 @@ function PaginationItem({ ...props }: React.ComponentProps<"li">) {
 
 type PaginationLinkProps = {
   isActive?: boolean
-} & Pick<React.ComponentProps<typeof Button>, "size"> &
-  React.ComponentProps<"a">
+  href: string
+  size?: "default" | "sm" | "lg" | "icon"
+  className?: string
+  children?: React.ReactNode
+}
 
 function PaginationLink({
   className,
   isActive,
   size = "icon",
+  href,
+  children,
   ...props
 }: PaginationLinkProps) {
   return (
-    <a
+    <Link
+      href={href}
       aria-current={isActive ? "page" : undefined}
-      data-slot="pagination-link"
-      data-active={isActive}
       className={cn(
         buttonVariants({
           variant: isActive ? "outline" : "ghost",
@@ -62,9 +67,11 @@ function PaginationLink({
         className
       )}
       {...props}
-    />
-  )
-}
+    >
+      {children}
+    </Link>
+    )
+  }
 
 function PaginationPrevious({
   className,
