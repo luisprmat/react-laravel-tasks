@@ -8,11 +8,13 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
 import AppLayout from '@/layouts/app-layout';
+import dayjs from '@/lib/dayjs';
 import { type BreadcrumbItem, type Task } from '@/types';
 
 type EditTaskForm = {
     name: string;
     is_completed: boolean;
+    due_date?: string;
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -28,6 +30,7 @@ export default function Edit({ task }: { task: Task }) {
     const { data, setData, errors, put, reset, processing } = useForm<Required<EditTaskForm>>({
         name: task.name,
         is_completed: task.is_completed,
+        due_date: task.due_date,
     });
 
     const editTask: FormEventHandler = (e) => {
@@ -72,6 +75,19 @@ export default function Edit({ task }: { task: Task }) {
                         <Switch checked={data.is_completed} onCheckedChange={() => setData('is_completed', !data.is_completed)} />
 
                         <InputError message={errors.is_completed} />
+                    </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="due_date">{t('Due Date')}</Label>
+
+                        <Input
+                            id="due_date"
+                            value={data.due_date ? dayjs(data.due_date).format('YYYY-MM-DD') : ''}
+                            onChange={(e) => setData('due_date', dayjs(e.target.value).format('YYYY-MM-DD'))}
+                            className="mt-1 block w-full"
+                            type="date"
+                        />
+
+                        <InputError message={errors.due_date} />
                     </div>
 
                     <div className="flex items-center gap-4">

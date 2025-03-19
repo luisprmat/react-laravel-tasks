@@ -6,6 +6,7 @@ import { useLaravelReactI18n } from 'laravel-react-i18n';
 import { TablePagination } from '@/components/table-pagination';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import dayjs from '@/lib/dayjs';
 import { toast } from 'sonner';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -41,6 +42,7 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                         <TableRow>
                             <TableHead>{t('Task')}</TableHead>
                             <TableHead className="w-[100px]">{t('Status')}</TableHead>
+                            <TableHead className="w-[100px]">{t('Due Date')}</TableHead>
                             <TableHead className="w-[150px] text-right">{t('Actions')}</TableHead>
                         </TableRow>
                     </TableHeader>
@@ -51,6 +53,7 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                                 <TableCell className={task.is_completed ? 'text-green-600' : 'text-red-700'}>
                                     {task.is_completed ? t('Completed') : t('In Progress')}
                                 </TableCell>
+                                <TableCell>{task.due_date ? dayjs(task.due_date).format('MMMM D, YYYY') : ''}</TableCell>
                                 <TableCell className="flex flex-row gap-x-2 text-right">
                                     <Link className={buttonVariants({ variant: 'default' })} href={`/tasks/${task.id}/edit`}>
                                         {t('Edit')}

@@ -7,10 +7,12 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import dayjs from '@/lib/dayjs';
 import { type BreadcrumbItem } from '@/types';
 
 type CreateTaskForm = {
     name?: string;
+    due_date?: string;
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -26,6 +28,7 @@ export default function Create() {
 
     const { data, setData, errors, post, reset, processing } = useForm<Required<CreateTaskForm>>({
         name: '',
+        due_date: '',
     });
 
     const createTask: FormEventHandler = (e) => {
@@ -65,6 +68,20 @@ export default function Create() {
                         />
 
                         <InputError message={errors.name} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="due_date">{t('Due Date')}</Label>
+
+                        <Input
+                            id="due_date"
+                            value={data.due_date}
+                            onChange={(e) => setData('due_date', dayjs(e.target.value).format('YYYY-MM-DD'))}
+                            className="mt-1 block w-full dark:[color-scheme:dark]"
+                            type="date"
+                        />
+
+                        <InputError message={errors.due_date} />
                     </div>
 
                     <div className="flex items-center gap-4">
