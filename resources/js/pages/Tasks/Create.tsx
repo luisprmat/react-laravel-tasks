@@ -7,13 +7,15 @@ import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import dayjs from '@/lib/dayjs';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type TaskCategory } from '@/types';
 
 type CreateTaskForm = {
     name?: string;
     due_date?: string;
     media?: string | File;
+    categories?: string[];
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -22,7 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Create', href: '/tasks' },
 ];
 
-export default function Create() {
+export default function Create({ categories }: { categories: TaskCategory[] }) {
     const { t } = useLaravelReactI18n();
 
     const taskName = useRef<HTMLInputElement>(null);
@@ -31,6 +33,7 @@ export default function Create() {
         name: '',
         due_date: '',
         media: '',
+        categories: [],
     });
 
     const createTask: FormEventHandler = (e) => {
@@ -108,6 +111,27 @@ export default function Create() {
                         )}
 
                         <InputError message={errors.media} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="categories">{t('Categories')}</Label>
+
+                        <ToggleGroup
+                            id="categories"
+                            type="multiple"
+                            variant={'outline'}
+                            size={'lg'}
+                            value={data.categories}
+                            onValueChange={(value) => setData('categories', value)}
+                        >
+                            {categories.map((category) => (
+                                <ToggleGroupItem key={category.id} value={category.id.toString()}>
+                                    {category.name}
+                                </ToggleGroupItem>
+                            ))}
+                        </ToggleGroup>
+
+                        <InputError message={errors.categories} />
                     </div>
 
                     <div className="flex items-center gap-4">

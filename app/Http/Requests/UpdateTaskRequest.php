@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTaskRequest extends FormRequest
 {
@@ -26,6 +27,8 @@ class UpdateTaskRequest extends FormRequest
             'is_completed' => ['boolean'],
             'due_date' => ['nullable', 'date'],
             'media' => ['nullable', 'file', 'max:10240'],
+            'categories' => ['nullable', 'array'],
+            'categories.*' => [Rule::exists('task_categories', 'id')],
         ];
     }
 }

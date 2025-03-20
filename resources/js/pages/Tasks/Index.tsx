@@ -1,5 +1,5 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type PaginatedResponse, type Task } from '@/types';
+import { type BreadcrumbItem, type PaginatedResponse, type Task, type TaskCategory } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
 import { useLaravelReactI18n } from 'laravel-react-i18n';
 
@@ -47,6 +47,7 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                         <TableRow>
                             <TableHead>{t('File')}</TableHead>
                             <TableHead>{t('Task')}</TableHead>
+                            <TableHead className="w-[200px]">{t('Categories')}</TableHead>
                             <TableHead className="w-[100px]">{t('Status')}</TableHead>
                             <TableHead className="w-[100px]">{t('Due Date')}</TableHead>
                             <TableHead className="w-[150px] text-right">{t('Actions')}</TableHead>
@@ -65,6 +66,13 @@ export default function Index({ tasks }: { tasks: PaginatedResponse<Task> }) {
                                     )}
                                 </TableCell>
                                 <TableCell>{task.name}</TableCell>
+                                <TableCell className={'flex flex-row gap-x-2'}>
+                                    {task.task_categories?.map((category: TaskCategory) => (
+                                        <span key={category.id} className="rounded-full bg-gray-200 px-2 py-1 text-xs">
+                                            {category.name}
+                                        </span>
+                                    ))}
+                                </TableCell>
                                 <TableCell className={task.is_completed ? 'text-green-600' : 'text-red-700'}>
                                     {task.is_completed ? t('Completed') : t('In Progress')}
                                 </TableCell>

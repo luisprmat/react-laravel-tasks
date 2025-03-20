@@ -7,15 +7,17 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import AppLayout from '@/layouts/app-layout';
 import dayjs from '@/lib/dayjs';
-import { type BreadcrumbItem, type Task } from '@/types';
+import { type BreadcrumbItem, type Task, type TaskCategory } from '@/types';
 
 type EditTaskForm = {
     name: string;
     is_completed: boolean;
     due_date?: string;
     media?: string | File;
+    categories: string[];
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -24,7 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Edit', href: '' },
 ];
 
-export default function Edit({ task }: { task: Task }) {
+export default function Edit({ task, categories }: { task: Task; categories: TaskCategory[] }) {
     const { t } = useLaravelReactI18n();
     const taskName = useRef<HTMLInputElement>(null);
 
@@ -33,6 +35,7 @@ export default function Edit({ task }: { task: Task }) {
         is_completed: task.is_completed,
         due_date: task.due_date,
         media: '',
+        categories: task.task_categories.map((category) => category.id.toString()),
     });
 
     const editTask: FormEventHandler = (e) => {
@@ -126,6 +129,26 @@ export default function Edit({ task }: { task: Task }) {
                                 <img src={task.mediaFile.original_url} className={'h-32 w-32'} />
                             </a>
                         )}
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="due_date">{t('Categories')}</Label>
+
+                        <ToggleGroup
+                            type="multiple"
+                            variant={'outline'}
+                            size={'lg'}
+                            value={data.categories}
+                            onValueChange={(value) => setData('categories', value)}
+                        >
+                            {categories.map((category) => (
+                                <ToggleGroupItem key={category.id} value={category.id.toString()}>
+                                    {category.name}
+                                </ToggleGroupItem>
+                            ))}
+                        </ToggleGroup>
+
+                        <InputError message={errors.due_date} />
                     </div>
 
                     <div className="flex items-center gap-4">
