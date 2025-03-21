@@ -45,7 +45,9 @@ export default function Dashboard({
                     </div>
                     <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col items-center justify-start overflow-hidden rounded-xl border py-4">
                         <h2 className={'text-center text-3xl font-bold'}>{t('Tasks Due Today')}</h2>
-                        <p className={'mt-auto mb-auto text-xl'}>{tChoice('One task due today.|:count tasks due today.', pendingTasksToday)}</p>
+                        <p className={'mt-auto mb-auto text-xl'}>
+                            {tChoice('{0} There are no tasks for today.|{1} One task due today.|[2,*] :count tasks due today.', pendingTasksToday)}
+                        </p>
                     </div>
                     <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col items-center justify-start overflow-hidden rounded-xl border py-4">
                         <h2 className={'text-center text-3xl font-bold'}>{t('Tasks This Week')}</h2>

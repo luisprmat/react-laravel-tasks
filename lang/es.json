@@ -190,7 +190,7 @@
     "Once your account is deleted, all of its resources and data will also be permanently deleted. Please confirm you would like to permanently delete your account.": "Una vez que se elimine su cuenta, todos sus recursos y datos también se eliminarán de forma permanente. Confirme que desea eliminar su cuenta de forma permanente.",
     "Once your account is deleted, all of its resources and data will also be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán de forma permanente. Ingrese su contraseña para confirmar que desea eliminar su cuenta de forma permanente.",
     "Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.": "Una vez que se elimine su cuenta, todos sus recursos y datos se eliminarán de forma permanente. Ingrese su contraseña para confirmar que desea eliminar su cuenta de forma permanente.",
-    "One task due today.|:count tasks due today.": "Una tarea para hoy.|:count tareas para entregar hoy.",
+    "{0} There are no tasks for today.|{1} One task due today.|[2,*] :count tasks due today.": "{0} No hay tareas para hoy.|{1} Una tarea para hoy.|[2,*] :count tareas para entregar hoy.",
     "Open": "Abrir",
     "Open in a current window": "Abrir en una ventana actual",
     "Open in a new window": "Abrir en una ventana nueva",
